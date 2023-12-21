@@ -1,0 +1,12 @@
+{
+  "str": "Hello, World",
+  "digital": 1213,
+  "float": 1.456,
+  "bool1": true,
+  "null": null,
+  "obj": {
+    "bool0": false,
+    "str": "A string"
+  },
+  "arr": [1, 2, 3, 4, 5]
+}

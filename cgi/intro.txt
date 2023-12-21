@@ -1,0 +1,36 @@
+CGI - Common Gateway Interface - Інтерфейс спільного шлюзу 
+Протокол, згідно з яким веб-сервер може запускати сторонні програми та передавати 
+їх керування для формування відповіді 
+
+/Users/1lexaa/Documents/dev/python202/cgi
+
+<VirtualHost *:80>
+  ServerAdmin webmaster@localhost
+  DocumentRoot "/Users/1lexaa/Documents/dev/python202/cgi"
+  ServerName py202.loc
+  ServerAlias www.py202.loc
+  ErrorLog "/Users/1lexaa/Documents/dev/python202/cgi/error.log"
+  CustomLog "/Users/1lexaa/Documents/dev/python202/cgi/access.log" common  
+<Directory "/Users/1lexaa/Documents/dev/python202/cgi">
+    AllowOverride All
+    Options -Indexes +ExecCGI
+  AddHandler cgi-script .py
+    Require all granted
+</Directory>
+</VirtualHost>
+
+
+<VirtualHost *:80>
+ServerAdmin webmaster@localhost
+DocumentRoot "/Users/1lexaa/Documents/dev/python202/cgi"
+ServerName py202.loc
+ServerAlias www.py202.loc
+ErrorLog "/Users/1lexaa/Documents/dev/python202/cgi/error.log"
+CustomLog "/Users/1lexaa/Documents/dev/python202/cgi/access.log" common  
+<Directory "/Users/1lexaa/Documents/dev/python202/cgi">
+AllowOverride All
+Options -Indexes +ExecCGI
+AddHandler cgi-script .py
+Require all granted
+</Directory>
+</VirtualHost>
