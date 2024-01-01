@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import logging 
 logging.basicConfig(filename='logs.txt', level=logging.INFO, 
     format='%(asctime)s %(levelname)s [%(filename)s::%(lineno)d] %(message)s %(args)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -87,32 +86,3 @@ class ApiController :
                 self.send_response(body={"scheme": "Bearer", "token": str(user_data['id'])})
         except mysql.connector.Error as err:
             self.send_response(500, "Internal Server Error", str(err))
-=======
-import json
-import os
-
-class ApiController :
-
-    def serve( self ) -> None :
-        '''Основний метод оброблення запиту з розглажунням
-        у відповідності до НТТР-методу'''
-        
-        method = os.environ.get( 'REQUEST_METHOD', '' )   # "GET"
-        action = f"do_{method.lower()}"                   # "do_get"
-        attr = getattr( self, action, None )              # obj.do_get
-        if attr is None :
-            self.send_response( 405, "Method Not Allowed", 
-                               { "message": f"Method '{method}' not allowed" } )
-        else :
-            attr()
-
-
-    def send_response( self, status_code:int=200, reason_phrase:str="OK", body:object=None ) -> None :
-        status_header = f"Status: {status_code} {reason_phrase if reason_phrase else ''}"
-        print( status_header )    
-        print( "Content-Type: application/json" )
-        print( "Connection: close" )
-        print()   # порожній рядок - кінець заголовків
-        print( json.dumps( body ) if body else '', end='' )
-        exit()
->>>>>>> 23607ae09fabcd30fcfc06703ad03519a3df1a4a
