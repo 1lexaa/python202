@@ -1,11 +1,5 @@
 from functools import reduce
 
-"""""
-Implement the idea of "Strategy" - transferring operations (lambda viruses) to the function,
-which will be saved to the next set of data, the one from them that gives
-minimum value. Like a butt you can use different algorithms for rozrakhunku
-middle: more arithmetic, geometric, harmonious,....
-"""""
 
 # <--====== Functions for calculating averages sector. ======-->
 _arithmetic_function = lambda data: sum(data) / len(data)
@@ -19,6 +13,6 @@ def ApplyStrategy(data, mean_strategy):
 # <--====== Custom code. sector. ======-->
 _data_set = [2, 4, 6, 8, 10]
 
-print(f"✨ Arithmetic average: {ApplyStrategy(_data_set, _arithmetic_function)}")
-print(f"✨ Geometric average: {ApplyStrategy(_data_set, _geometric_function)}")
-print(f"✨ Harmonic average: {ApplyStrategy(_data_set, _harmonic_function)}")
+print(f"Arithmetic average: {ApplyStrategy(_data_set, _arithmetic_function)}")
+print(f"Geometric average: {ApplyStrategy(_data_set, _geometric_function)}")
+print(f"Harmonic average: {ApplyStrategy(_data_set, _harmonic_function)}")

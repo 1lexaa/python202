@@ -1,11 +1,17 @@
 import api_controller
+<<<<<<< HEAD
 import sys
 sys.path.append('../../')
 import dao
+=======
+import  json
+import sys
+>>>>>>> 23607ae09fabcd30fcfc06703ad03519a3df1a4a
 
 class ProductController( api_controller.ApiController ) :
 
     def do_get( self ) :
+<<<<<<< HEAD
         try :
             products = dao.Products.get_all()
         except :
@@ -103,3 +109,16 @@ GET /product/123
 правилами. В ідеалі позбутись параметра 'body' у формувачі
 відповіді (тільки 'meta' та 'data')
 '''
+=======
+        self.send_response( body="ProductController works!" )
+
+
+    def do_put( self ) :
+        # Тіло запиту при CGI передається до stdin
+        request_body = sys.stdin.read().encode("cp1251").decode("utf-8")
+        body_data = json.loads( request_body )
+        if not ( 'name' in body_data and 'price' in body_data ) :
+            self.send_response( 400, "Bad Request",
+                               { "message": "Required: 'name' and 'price' " } )
+        self.send_response( body=request_body )
+>>>>>>> 23607ae09fabcd30fcfc06703ad03519a3df1a4a
