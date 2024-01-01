@@ -1,36 +1,57 @@
-CGI - Common Gateway Interface - Інтерфейс спільного шлюзу 
-Протокол, згідно з яким веб-сервер може запускати сторонні програми та передавати 
-їх керування для формування відповіді 
+CGI - Common Gateway Interface - Інтерфейс спільного шлюзу
+Протокол, згідно з яким веб-сервер може запускати сторонні програми
+та передавати їх керування для формування відповіді
 
-/Users/1lexaa/Documents/dev/python202/cgi
+         HTTP                        розбір запиту
+Browser ------>     :80 <---> Apache -------------->  Python
+        <------         <----        <---------------- index.py print(...) 
 
-<VirtualHost *:80>
-  ServerAdmin webmaster@localhost
-  DocumentRoot "/Users/1lexaa/Documents/dev/python202/cgi"
-  ServerName py202.loc
-  ServerAlias www.py202.loc
-  ErrorLog "/Users/1lexaa/Documents/dev/python202/cgi/error.log"
-  CustomLog "/Users/1lexaa/Documents/dev/python202/cgi/access.log" common  
-<Directory "/Users/1lexaa/Documents/dev/python202/cgi">
-    AllowOverride All
-    Options -Indexes +ExecCGI
-  AddHandler cgi-script .py
-    Require all granted
-</Directory>
-</VirtualHost>
+Веб-сервер (Apache) отримує запит (НТТР-пакет), розбирає його (заголовки,
+тіло, параметри) створює з них змінні та передає їх до скрипта.
+Скрипт (Python) виводить дані (print), цей вивід "перехоплюється" 
+веб-сервером та формує пакет-відповідь.
 
+1. Налаштування Apache
+ - встановлюємо, перевіряємо на можливість запуску.
+ - налаштовуємо локальний (віртуальний) хостінг
+  = відкриваємо папку з Apache [C:\xampp\apache]
+  = заходимо до папки [conf], якщо є, то [extra]
+     відкриваємо конфігурацію а) httpd-vhosts.conf або б) httpd.conf
+     ( xampp/xamppfiles/etc/extra/httpd-vhosts.conf )
+  = створюємо налаштування для нашого сайту (хосту)        
+        <VirtualHost *:80>
+            ServerAdmin webmaster@localhost
+            DocumentRoot "C:/**path-to-project**/Python-202/cgi"
+            ServerName py202.loc
+            ServerAlias www.py202.loc
+            ErrorLog "C:/**path-to-project**/Python-202/cgi/error.log"
+            CustomLog "C:/**path-to-project**/Python-202/cgi/access.log" common  
+            <Directory "C:/**path-to-project**/Python-202/cgi">
+                AllowOverride All
+                Options -Indexes +ExecCGI
+                AddHandler cgi-script .py
+                Require all granted
+            </Directory>
+        </VirtualHost>
+      Після цього зберігаємо та перезапускаємо Apache
+  = Створюємо у папці проєкту файл index.html з тестовим вмістом
+  = Налаштовуємо локальний DNS - відкриваємо у режимі адміністратора файл
+     "C:\Windows\System32\drivers\etc\hosts"
+     додаємо у кінець файлу
+        127.0.0.1   py202.loc
+        127.0.0.1   www.py202.loc
+  = У браузері набираємо http://py202.loc (з http:// інакше перейде у пошук)
 
-<VirtualHost *:80>
-ServerAdmin webmaster@localhost
-DocumentRoot "/Users/1lexaa/Documents/dev/python202/cgi"
-ServerName py202.loc
-ServerAlias www.py202.loc
-ErrorLog "/Users/1lexaa/Documents/dev/python202/cgi/error.log"
-CustomLog "/Users/1lexaa/Documents/dev/python202/cgi/access.log" common  
-<Directory "/Users/1lexaa/Documents/dev/python202/cgi">
-AllowOverride All
-Options -Indexes +ExecCGI
-AddHandler cgi-script .py
-Require all granted
-</Directory>
-</VirtualHost>
+2. CGI 
+ - створюємо скрипт index.py
+ - перший рядок вказує на інтерпретатор
+        #!C:\Python312\python.exe
+ - далі командами print формуємо відповідь сервера !! починаючи із заголовків
+        print( "Content-Type: text/html; charset=cp1251" )
+        print( "Connection: close" )
+        print()   # порожній рядок - кінець заголовків
+        print( '''<!DOCTYPE html>....
+- підбираємо кодування у відповідності до ОС (cp1251 / utf-8)
+- одержуємо відомості про змінні оточення
+- переконавшись у роботі перемикаємо основний індекс на скрипт
+       DirectoryIndex index.py

@@ -1,0 +1,27 @@
+<div>
+  {{authToken}}
+  <div class="row">
+    <div class="col s6 m4 l3 xl2" ng-repeat="p in products">
+      <div class="card">
+        <div class="card-image">
+          <img ng-src="/img/{{p.image_url}}" />
+          <a
+            ng-click="addCartClick(p.id)"
+            class="btn-floating halfway-fab waves-effect waves-light red"
+            ><i class="material-icons">shopping_cart</i></a
+          >
+        </div>
+        <div class="card-content">
+          <p class="product-card-title">Назва: {{p.name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="input-field inline">
+    <input id="user-login" ng-model="userLogin" />
+  </div>
+  <div class="input-field inline">
+    <input id="user-password" ng-model="userPassword" type="password" />
+  </div>
+  <button id="auth-button" ng-click="authClick()">Authenticate</button>
+</div>

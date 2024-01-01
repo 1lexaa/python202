@@ -1,33 +1,44 @@
-#!C:/Python/python.exe
+# #! C:/Python/python.exe
+# import os
 
-import cgi
+# envs = f"<ul>{"".join([f"<li>{k} = {v}</li>" for k,v in os.environ.items()])}</ul>"
+
+# print( "Content-Type: text/html; charset=cp1251" )
+# print( "Connection: close" )
+# print()
+# with open( 'home.html' ) as file :
+#     print( file.read() )
+
+
+#! C:\Users\scrin\AppData\Local\Programs\Python\Python36-32\python.exe
 import os
+import mysql.connector
 
-form = cgi.FieldStorage()
-x = form.getvalue('x', '')
-y = form.getvalue('y', '')
+'''
+Implement the output of the SQL query result
+sql = "SHOW DATABASES"
+in the form of an HTML table (or list) in the composition
+of an arbitrary page (for example, index.py)
+'''
 
-request_uri = os.environ.get('REQUEST_URI', '/')
-request_method = os.environ.get('REQUEST_METHOD', 'GET')
-remote_addr = os.environ.get('REMOTE_ADDR', '127.0.0.1')
-request_scheme = os.environ.get('REQUEST_SCHEME', 'http')
+from db_ini import connection_params
 
-envs = f"<ul><li>REQUEST_URI = {request_uri}</li><li>REQUEST_METHOD = {request_method}</li><li>REMOTE_ADDR = {remote_addr}</li><li>REQUEST_SCHEME = {request_scheme}</li></ul>"
+connection = mysql.connector.connect(**connection_params)
+cursor = connection.cursor()
+sql_query = "SHOW DATABASES"
+cursor.execute(sql_query)
+databases = [row[0] for row in cursor.fetchall()]
+
+cursor.close()
+connection.close()
+
+table_content = "<table border='1'><tr><th>База данных</th></tr>"
+
+for db in databases:
+    table_content += f"<tr><td>{db}</td></tr>"
+table_content += "</table>"
 
 print("Content-Type: text/html; charset=cp1251")
 print("Connection: close")
 print()
-
-print(f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="cp1251">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CGI</title>
-</head>
-<body>
-    <h1>CGI is running</h1>
-    <p>{envs}</p>
-    <p>Query String: {{'x': '{x}', 'y': '{y}'}}</p>
-</body>
-</html>''')
+print(f"<html><body>{table_content}</body></html>")

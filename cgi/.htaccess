@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule  ^(\w\w)/shop/(.*)$  shop.py?lang=$1&id=$2  [QSA,END]
+RewriteRule  ^auth$     api/auth.py    [QSA,END]
+RewriteRule  ^product$  api/product.py [QSA,END]
+RewriteRule  ^cart$     api/cart.py    [QSA,END]
