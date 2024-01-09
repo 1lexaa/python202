@@ -1,5 +1,6 @@
 #!C:\Python\python.exe
 
-import cart_controller as controller
 
-controller.CartController().serve()
+import cart_controller
+
+cart_controller.CartController().serve()
